@@ -12,7 +12,8 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">CALCULADORA</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +34,68 @@
             <div class="card-body">
 
                 
-                <h2>Tabla</h2>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">EDAD</th>
+                    <th scope="col">SEXO</th>
+                    <th scope="col">PESO</th>
+                    <th scope="col">ALTURA</th>
+                    <th scope="col">CINTURA</th>
+                    <th scope="col">CUELLO</th>
+                    <th scope="col">CADERA</th>
+                    <th scope="col">ACTIVIDAD</th>
+                    <th scope="col">BMR (Índice Metabólico Basal)</th>
+                    <th scope="col">IMC (índice de masa corporal)</th>
+                    <th scope="col">INDICE DE CINTURA</th>
+                    <th scope="col">PORCENTAJE DE GRASA</th>
+                    <th scope="col">MASA CORPORAL</th>
+                    <th scope="col">CALORIAS</th>
+                    <th scope="col">ACCIONES</th>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  {% for datos in datos %}
+                  <tr>
+                    <th scope="row">{{ datos.id_persona }}</th>
+                    <td>{{ datos.nombre }}</td>                   
+                    <td>
+                        {% if datos.sexo == '1' %}
+                        Hombre
+                        {% else %}
+                        Mujer
+                 
+                        {% endif %}
+
+                    </td>
+                    <td>{{ datos.edad }} años</td>
+                    <td>{{ datos.peso }} Kg</td>
+                    <td>{{ datos.altura }} cm</td>
+                    <td>{{ datos.cintura }} cm</td>
+                    <td>{{ datos.cuello }} cm</td>
+                    <td>{{ datos.cadera }} cm</td>
+                    <td>{{ datos.actividad }} %</td>
+                    <td>{{ datos.bmr }} O2/mn</td>
+                    <td>{{ datos.imc }} Kg/m2</td>
+                    <td>{{ datos.indice_cintura }} cm</td>
+                    <td>{{ datos.porcen_graso }} %</td>
+                    <td>{{ datos.masa_corporal }} Kg</td>
+                    <td>{{ datos.calorias }} kcal</td>
+                    <td>
+                      <a href="{% url 'eliminar' datos.id_persona %}" class="btn btn-danger">Eliminar</a>
+                      <a href="{% url 'editar' datos.id_persona %}" class="btn btn-info">Editar</a>
+                    </td>
+                    
+
+                  </tr>
+               
+                  {% endfor %}
+                </tbody>
+                
+              </table>
 
                 
             </div>

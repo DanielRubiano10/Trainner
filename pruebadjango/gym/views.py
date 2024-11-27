@@ -12,7 +12,40 @@ def register(request):
 
     if formulario.is_valid():
 
-        formulario.save()
+        nombre = formulario.cleaned_data['nombre']
+        sexo = formulario.cleaned_data['sexo']
+        edad = formulario.cleaned_data['edad']
+        peso = formulario.cleaned_data['peso']
+        altura = formulario.cleaned_data['altura']
+        cintura = formulario.cleaned_data['cintura']
+        cuello = formulario.cleaned_data['cuello']
+        cadera = formulario.cleaned_data['cadera']
+        activi = formulario.cleaned_data['actividad']
+
+        usuario = Usuario(sexo, edad, peso, altura, cintura, cuello, cadera)
+
+        graso = usuario.calcular_porcentaje_graso()
+        rbmr = usuario.calcular_bmr()
+
+        datos_trainner = Trainner(
+            nombre = nombre,
+            sexo = sexo,
+            edad = edad,
+            peso = peso,
+            altura = altura,
+            cintura = cintura,
+            cuello = cuello,
+            cadera = cadera,
+            actividad = activi,
+            bmr = usuario.calcular_bmr(),
+            imc = usuario.calcular_imc(),
+            indice_cintura = usuario.calcular_indice_cintura_altura(),
+            porcen_graso = usuario.calcular_porcentaje_graso(),
+            masa_corporal = usuario.masa_corporal_magra(graso),
+            calorias = calcular_calorias(rbmr, activi)
+        )
+
+        datos_trainner.save()
         return redirect('index')
     else:
         formulario = TrainnerForm()
@@ -20,10 +53,17 @@ def register(request):
     return render(request, 'register.html', {'formulario': formulario})
 
 def table(request):
-    return render(request, 'table.html')
+    datos = Trainner.objects.all()
+    return render(request, 'table.html', {'datos': datos})
 
-def edit(request):
-    return render(request, 'edit.html')
+def edit(request, id):
 
-def results(request):
-    return render(request, 'results.html')
+    trainner = Trainner.objects.get(id_persona = id)
+    formulario = TrainnerForm(request.POST or None, instance=trainner)
+
+    return render(request, 'edit.html', {'formulario': formulario})
+
+def eliminar(request, id):
+    trainner = Trainner.objects.get(id_persona=id)
+    trainner.delete()
+    return redirect('index')

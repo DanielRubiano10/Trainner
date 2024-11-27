@@ -21,7 +21,9 @@ from gym import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('results', views.results, name='results'),
     path('table', views.table, name='table'),
-    path('register', views.register, name='register')
+    path('register', views.register, name='register'),
+    path('eliminar/<int:id>', views.eliminar, name='eliminar'),
+    path('editar/<int:id>', views.edit, name='editar')
+    
 ]
